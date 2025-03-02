@@ -8,13 +8,13 @@ async def get_tracking_info(tracking_url):
     """Hàm lấy thông tin vận đơn từ trang SPX"""
     
     # Đường dẫn Chrome có sẵn trên máy (Cập nhật đúng với máy bạn)
-    browser_path = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
+   # browser_path = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
 
     browser = await launch(
-        headless=True,  # Chạy ẩn
-        executablePath=browser_path,
-        args=['--no-sandbox', '--disable-setuid-sandbox']
-    )
+    executablePath="/usr/bin/google-chrome",
+    headless=True,
+    args=["--no-sandbox", "--disable-setuid-sandbox"]
+)
 
     page = await browser.newPage()
     await page.goto(tracking_url)
