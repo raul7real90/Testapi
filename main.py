@@ -7,14 +7,11 @@ app = FastAPI()
 async def get_tracking_info(tracking_url):
     """Hàm lấy thông tin vận đơn từ trang SPX"""
     
-    # Đường dẫn Chrome có sẵn trên máy (Cập nhật đúng với máy bạn)
-   # browser_path = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
-
+    # Không cần chỉ định `executablePath`, Pyppeteer sẽ tự tải Chromium
     browser = await launch(
-    executablePath="/usr/bin/google-chrome",
-    headless=True,
-    args=["--no-sandbox", "--disable-setuid-sandbox"]
-)
+        headless=True,
+        args=["--no-sandbox", "--disable-setuid-sandbox"]
+    )
 
     page = await browser.newPage()
     await page.goto(tracking_url)
@@ -40,4 +37,3 @@ async def track_shipment(tracking_id: str):
     tracking_url = f"https://spx.vn/track?{tracking_id}"
     data = await get_tracking_info(tracking_url)
     return data
-
