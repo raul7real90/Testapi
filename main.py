@@ -6,9 +6,10 @@ app = FastAPI()
 
 async def get_tracking_info(tracking_url):
     """Hàm lấy thông tin vận đơn từ trang SPX"""
-    
-    # Không cần chỉ định `executablePath`, Pyppeteer sẽ tự tải Chromium
+
+    # Sử dụng Chromium được cài đặt sẵn trên Linux
     browser = await launch(
+        executablePath="/usr/bin/chromium-browser",  # Đường dẫn Chromium trên Render
         headless=True,
         args=["--no-sandbox", "--disable-setuid-sandbox"]
     )
@@ -37,3 +38,8 @@ async def track_shipment(tracking_id: str):
     tracking_url = f"https://spx.vn/track?{tracking_id}"
     data = await get_tracking_info(tracking_url)
     return data
+
+# Chạy ứng dụng nếu file được chạy trực tiếp
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
